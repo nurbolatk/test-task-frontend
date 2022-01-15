@@ -11,5 +11,9 @@
 }
 
 body {
-  @apply text-slate-700
+  @apply text-slate-700;
+}
+
+.card {
+  @apply border border-slate-100 shadow-sm p-5 w-max rounded-md;
 }
