@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input {
+  @apply w-full px-2 py-1 border border-slate-300 rounded outline-none focus:ring-1 ring-orange-500 ring-offset-0;
+}
+
+.button {
+  @apply py-2 px-3.5 bg-orange-600 text-white rounded hover:bg-orange-700;
+}
+
+body {
+  @apply text-slate-700
+}
