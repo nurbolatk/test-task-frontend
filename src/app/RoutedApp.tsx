@@ -12,7 +12,7 @@ export const RoutedApp = (): JSX.Element => {
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="login" element={<LoginPage />} />
             {/*<Route path="tasks" element={<Teams />}>*/}
             {/*  <Route path="new" element={<NewTeamForm />} />*/}
             {/*  <Route path=":taskId" element={<Team />} />*/}

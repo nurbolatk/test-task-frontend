@@ -9,7 +9,7 @@ export const LoginPage = (): JSX.Element => {
     login(username, password)
   }
 
-  console.log(user, error)
+  console.log({ user, error })
 
   return (
     <section>
