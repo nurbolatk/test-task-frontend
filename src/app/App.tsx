@@ -1,8 +1,18 @@
 import React from 'react'
 import './styles/index.css'
+import { Link, Outlet } from 'react-router-dom'
+import { AppProviders } from './providers'
 
-function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>
+export function App() {
+  return (
+    <AppProviders>
+      <header>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/login">Login</Link>
+        </nav>
+      </header>
+      <Outlet />
+    </AppProviders>
+  )
 }
-
-export default App
