@@ -1,20 +1,15 @@
 import React from 'react'
 import { LoginForm } from 'entities/user'
-import { client, useAsync } from 'shared/client'
+import { useAuth } from 'app/providers'
 
 export const LoginPage = (): JSX.Element => {
-  const { run, error } = useAsync<{ token: string }>(undefined)
+  const { user, error, login } = useAuth()
 
   const handleSubmit = (username: string, password: string) => {
-    run(
-      client('/login', {
-        data: {
-          username,
-          password,
-        },
-      })
-    )
+    login(username, password)
   }
+
+  console.log(user, error)
 
   return (
     <section>

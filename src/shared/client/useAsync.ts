@@ -15,7 +15,7 @@ const defaultInitialState: State<never> = {
   error: null,
 }
 
-export function useAsync<T>(initialState: State<T> | undefined) {
+export function useAsync<T>(initialState?: State<T>) {
   const initialStateRef = useRef<State<T>>({
     ...defaultInitialState,
     ...initialState,
@@ -28,7 +28,7 @@ export function useAsync<T>(initialState: State<T> | undefined) {
   const dispatch = useSafeDispatch(unsafeDispatch)
 
   const setData = useCallback(
-    (data: T) => {
+    (data: T | null) => {
       dispatch({ status: 'resolved', data, error: null })
     },
     [dispatch]
