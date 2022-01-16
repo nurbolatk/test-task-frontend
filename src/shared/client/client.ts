@@ -1,18 +1,14 @@
 const api = 'https://uxcandy.com/~shapoval/test-task-backend/v2'
 
-export const client = async <T>(
-  endpoint: string,
+type ClientOptions = Partial<
   {
-    data,
-    token,
-    ...customConfig
-  }: Partial<
-    {
-      data: Record<string, string>
-      token: string
-    } & RequestInit
-  >
-): Promise<T> => {
+    data: Record<string, string>
+    token: string
+  } & RequestInit
+>
+
+export const client = async <T>(endpoint: string, options: ClientOptions): Promise<T> => {
+  const { data, token, ...customConfig } = options
   const formData = new FormData()
 
   if (data) {

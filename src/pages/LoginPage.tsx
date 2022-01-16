@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LoginForm } from 'entities/user'
 import { useAuth } from 'app/providers'
+import { useNavigate } from 'react-router'
 
 export const LoginPage = (): JSX.Element => {
   const { user, error, login } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate('/', {
+        replace: true,
+      })
+    }
+  }, [])
 
   const handleSubmit = (username: string, password: string) => {
     login(username, password)
