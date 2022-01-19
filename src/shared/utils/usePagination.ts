@@ -7,13 +7,13 @@ export function usePagination(totalPages: number) {
     if (page < totalPages) {
       setPage(page + 1)
     }
-  }, [])
+  }, [page, totalPages])
 
   const prevPage = useCallback(() => {
     if (page > 1) {
       setPage(page - 1)
     }
-  }, [])
+  }, [page])
 
   return { page, setPage, nextPage, prevPage }
 }

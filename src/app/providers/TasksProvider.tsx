@@ -17,7 +17,7 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   useEffect(() => {
     run(fetchTasks())
-  }, [])
+  }, [run])
 
   return (
     <TasksContext.Provider value={{ tasks: null, totalCount: null }}>
