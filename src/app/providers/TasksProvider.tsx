@@ -1,29 +1,62 @@
-import React, { PropsWithChildren, useEffect } from 'react'
-import { client, useAsync } from 'shared/client'
+import React, { PropsWithChildren, useCallback, useState } from 'react'
 import { Task } from 'entities/task'
-import { fetchTasks } from 'shared/api/tasks'
+import { fetchTasks, TASKS_PER_PAGE } from 'shared/api/tasks'
+import { usePagination } from 'shared/utils'
 
 type TasksStore = {
-  tasks: Task[][] | null
+  getTasks: () => Promise<void>
+  nextPage: () => void
+  prevPage: () => void
+  page: number
+  tasks: Task[]
   totalCount: number | null
 }
+
 const TasksContext = React.createContext<TasksStore | undefined>(undefined)
 
 const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
-  const { data, error, isLoading, isIdle, run, setData } = useAsync<{
-    tasks: Task[]
-    totalCount: number
-  }>()
+  const [state, setState] = useState<{
+    tasks: Task[][]
+    totalCount: number | null
+  }>({
+    tasks: [],
+    totalCount: null,
+  })
 
-  useEffect(() => {
-    run(fetchTasks())
-  }, [run])
+  const { page, prevPage, nextPage } = usePagination()
 
-  return (
-    <TasksContext.Provider value={{ tasks: null, totalCount: null }}>
-      {children}
-    </TasksContext.Provider>
+  const getTasks = useCallback(
+    () =>
+      fetchTasks(page)
+        .then((result) => {
+          const { totalCount } = result
+          const totalPages = Math.ceil(totalCount / TASKS_PER_PAGE)
+
+          setState((state) => {
+            const tasks = [...state.tasks]
+            tasks[page - 1] = result.tasks
+            return {
+              tasks,
+              totalCount,
+            }
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        }),
+    [page]
   )
+
+  const value = {
+    tasks: state.tasks[page - 1] ?? [],
+    totalCount: state.totalCount,
+    getTasks,
+    nextPage,
+    prevPage,
+    page,
+  }
+
+  return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
 }
 
 function useTasks() {

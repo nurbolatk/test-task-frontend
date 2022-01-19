@@ -1,19 +1,29 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
-export function usePagination(totalPages: number) {
-  const [page, setPage] = useState(1)
+export function usePagination() {
+  const [queryParams] = useSearchParams()
+  const page = queryParams.get('page')
+  const pageInt = parseInt(page ?? '1')
+  const navigate = useNavigate()
 
   const nextPage = useCallback(() => {
-    if (page < totalPages) {
-      setPage(page + 1)
-    }
-  }, [page, totalPages])
+    navigate({
+      pathname: '/',
+      search: `page=${pageInt + 1}`,
+    })
+  }, [navigate, pageInt])
+  console.log({ page })
 
   const prevPage = useCallback(() => {
-    if (page > 1) {
-      setPage(page - 1)
+    if (pageInt > 1) {
+      navigate({
+        pathname: '/',
+        search: `page=${pageInt - 1}`,
+      })
     }
-  }, [page])
+  }, [navigate, pageInt])
 
-  return { page, setPage, nextPage, prevPage }
+  return { page: pageInt, nextPage, prevPage }
 }
