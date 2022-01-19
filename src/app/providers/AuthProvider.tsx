@@ -5,7 +5,7 @@ import * as auth from 'shared/api/auth'
 
 type AuthContextValue = {
   user: User | null
-  error: never | null
+  error: Record<string, string> | null
   login: (username: string, password: string) => Promise<void>
   logout: () => void
 }

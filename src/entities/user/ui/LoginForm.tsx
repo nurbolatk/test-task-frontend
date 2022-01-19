@@ -1,16 +1,14 @@
 import React from 'react'
 import { ErrorMessage } from 'shared/ui/'
+import { useAuth } from '../../../app/providers'
 
-type Props = {
-  onSubmitLogin: (username: string, password: string) => void
-  errors: LoginFormErrors | null
-}
+export const LoginForm = (): JSX.Element => {
+  const { login, error: errors } = useAuth()
 
-export const LoginForm = ({ onSubmitLogin, errors }: Props): JSX.Element => {
   const handleSubmit = (event: React.FormEvent<LoginFormElement>) => {
     event.preventDefault()
     const { username, password } = event.currentTarget.elements
-    onSubmitLogin(username.value, password.value)
+    login(username.value, password.value)
   }
 
   return (
@@ -36,8 +34,4 @@ type FormElements = HTMLFormControlsCollection & {
 }
 type LoginFormElement = HTMLFormElement & {
   readonly elements: FormElements
-}
-type LoginFormErrors = {
-  username: string | null | undefined
-  password: string | null | undefined
 }

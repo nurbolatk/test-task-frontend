@@ -4,7 +4,7 @@ import { useAuth } from 'app/providers'
 import { useNavigate } from 'react-router'
 
 export const LoginPage = (): JSX.Element => {
-  const { user, error, login } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -15,17 +15,11 @@ export const LoginPage = (): JSX.Element => {
     }
   }, [])
 
-  const handleSubmit = (username: string, password: string) => {
-    login(username, password)
-  }
-
-  console.log({ user, error })
-
   return (
     <section>
       <div className="mx-auto card">
         <h2 className="text-xl mb-4">Пожалуйста, войдите</h2>
-        <LoginForm onSubmitLogin={handleSubmit} errors={error} />
+        <LoginForm />
       </div>
     </section>
   )

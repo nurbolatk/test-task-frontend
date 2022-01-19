@@ -4,7 +4,7 @@ import { Dispatch, useCallback, useReducer, useRef } from 'react'
 type State<T> = {
   data: T | null
   status: 'idle' | 'pending' | 'resolved' | 'rejected'
-  error: never | null
+  error: Record<string, string> | null
 }
 
 type Reducer<S> = (prevState: S, action: S) => S

@@ -1,7 +1,5 @@
-import { User } from 'entities/user'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { client, useAsync } from 'shared/client'
-import * as auth from 'shared/api/auth'
 import { Task } from 'entities/task'
 import { fetchTasks } from 'shared/api/tasks'
 
