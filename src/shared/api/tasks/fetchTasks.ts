@@ -6,10 +6,14 @@ export const fetchTasks = async (
   sortField: SortField = SortField.ID,
   sortDir: SortDir = 'asc'
 ) => {
-  const { tasks, total_task_count: totalCount } = await client<FetchTasksResult>(
-    `/?page=${page}&sort_field=${sortField}&sort_direction=${sortDir}`,
-    {}
-  )
+  const queryParams = new URLSearchParams()
+  queryParams.append('page', String(page))
+  queryParams.append('sort_field', sortField)
+  queryParams.append('sort_direction', sortDir)
+
+  const { tasks, total_task_count: totalCount } = await client<FetchTasksResult>('/', {
+    queryParams,
+  })
   return {
     tasks,
     totalCount: parseInt(totalCount),
