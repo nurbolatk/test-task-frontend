@@ -1,7 +1,9 @@
 import React, { HTMLAttributes, PropsWithChildren } from 'react'
-import { CheckMarkIcon } from '../icons/CheckMarkIcon'
+import { CheckMarkIcon } from 'shared/ui/icons'
 
-type Props = Omit<HTMLAttributes<HTMLInputElement>, 'type'>
+type Props = Omit<HTMLAttributes<HTMLInputElement>, 'type'> & {
+  checked: boolean
+}
 
 export const Checkbox = ({ children, ...inputProps }: PropsWithChildren<Props>): JSX.Element => {
   return (

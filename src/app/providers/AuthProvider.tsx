@@ -6,7 +6,7 @@ import * as auth from 'shared/api/auth'
 type AuthContextValue = {
   user: User | null
   error: Record<string, string> | null
-  login: (username: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<User | null>
   logout: () => void
 }
 const AuthContext = React.createContext<AuthContextValue | undefined>(undefined)
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const login = React.useCallback(
     (username: string, password: string) => run(auth.login(username, password)),
-    [setData]
+    [run]
   )
   const logout = React.useCallback(() => {
     auth.logout()
@@ -31,7 +31,7 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
         setData(null)
       }
     })
-  }, [])
+  }, [setData])
   console.log('ap', error)
 
   const value = React.useMemo(() => ({ user, error, login, logout }), [login, logout, error, user])

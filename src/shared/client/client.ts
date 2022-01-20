@@ -1,8 +1,10 @@
+import { logout } from '../api/auth'
+
 const api = 'https://uxcandy.com/~shapoval/test-task-backend/v2'
 
 type ClientOptions = Partial<
   {
-    data: Record<string, string>
+    data: Record<string, string | number>
     token: string
     queryParams: URLSearchParams
   } & RequestInit
@@ -14,17 +16,16 @@ export const client = async <T>(endpoint: string, options: ClientOptions): Promi
 
   if (data) {
     for (const key in data) {
-      formData.append(key, data[key])
+      formData.append(key, String(data[key]))
     }
+  }
+  if (token) {
+    formData.append('token', token)
   }
 
   const config = {
     method: data ? 'POST' : 'GET',
     body: data ? formData : undefined,
-    // headers: {
-    //   // Authorization: token ? `Bearer ${token}` : '',
-    //   // 'Content-Type': data ? 'multipart/form-data' : '',
-    // },
     ...customConfig,
   }
 
@@ -33,11 +34,16 @@ export const client = async <T>(endpoint: string, options: ClientOptions): Promi
     .then(async (response) => {
       if (response.status === 401) {
         alert(401)
+        logout()
         return Promise.reject({ message: 'Токен истек' })
       }
       const data = await response.json()
+
       if (response.ok) {
         if (data.status === 'error') {
+          if (data.message.token) {
+            logout()
+          }
           return Promise.reject(data.message)
         }
         return data.message
