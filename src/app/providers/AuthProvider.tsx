@@ -2,6 +2,7 @@ import { User } from 'entities/user'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { useAsync } from 'shared/client'
 import * as auth from 'shared/api/auth'
+import { OverlayLoader } from '../../shared/ui'
 
 type AuthContextValue = {
   user: User | null
@@ -15,7 +16,9 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
   const { data: user, error, isLoading, isIdle, run, setData } = useAsync<User>()
 
   const login = React.useCallback(
-    (username: string, password: string) => run(auth.login(username, password)),
+    (username: string, password: string) => {
+      return run(auth.login(username, password))
+    },
     [run]
   )
   const logout = React.useCallback(() => {
@@ -36,7 +39,7 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
   const value = React.useMemo(() => ({ user, error, login, logout }), [login, logout, error, user])
 
   if (isLoading || isIdle) {
-    return <p>Загрузка...</p>
+    return <OverlayLoader className="w-screen h-screen fixed z-50" />
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

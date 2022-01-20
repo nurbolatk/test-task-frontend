@@ -11,7 +11,7 @@ type Reducer<S> = (prevState: S, action: S) => S
 
 const defaultInitialState: State<never> = {
   data: null,
-  status: 'pending',
+  status: 'idle',
   error: null,
 }
 

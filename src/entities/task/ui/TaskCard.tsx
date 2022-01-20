@@ -1,11 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { Task, getTaskStatus, getOppositeStatus, adminitizeStatus } from '../model'
-import { Checkbox } from 'shared/ui'
+import { Checkbox, OverlayLoader } from 'shared/ui'
 import { CheckMarkIcon, EditIcon, EmailIcon, UserIcon } from 'shared/ui/icons'
 import { useAsync } from 'shared/client'
 import { useAuth, useTasks } from 'app/providers'
 import { updateTask } from 'shared/api/tasks'
-import { useNavigate } from 'react-router'
 
 type Props = {
   task: Task
@@ -14,7 +13,7 @@ type Props = {
 export const TaskCard = ({ task }: Props): JSX.Element => {
   const { user } = useAuth()
   const token = user?.token ?? ''
-  const { run } = useAsync()
+  const { run, isLoading } = useAsync()
   const { getTasks } = useTasks()
   const [editMode, setEditMode] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -44,7 +43,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
   const isAdmin = !!user?.token
 
   return (
-    <div className="card w-full">
+    <div className="card relative ">
       <Checkbox id={String(task.id)} checked={taskStatus.checked} onChange={handleStatusChange}>
         {taskStatus.status}
       </Checkbox>
@@ -77,6 +76,8 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
           {task.email}
         </p>
       </div>
+
+      {isLoading && <OverlayLoader />}
     </div>
   )
 }
