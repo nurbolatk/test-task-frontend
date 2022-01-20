@@ -2,18 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply text-slate-700 min-h-screen;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='100%25'%3E%3Cdefs%3E%3Cpattern id='doodad' width='29' height='29' viewBox='0 0 40 40' patternUnits='userSpaceOnUse' patternTransform='rotate(135)'%3E%3Crect width='100%25' height='100%25' fill='rgba(255, 247, 237,1)'/%3E%3Cpath d='m0 10h40v4h-40z' fill='rgba(255, 237, 213,1)'/%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23doodad)' height='200%25' width='200%25'/%3E%3C/svg%3E ")
+}
+
 .input {
   @apply w-full px-2 py-1 border border-slate-300 rounded outline-none focus:ring-1 ring-orange-500 ring-offset-0;
 }
 
 .button {
-  @apply py-2 px-3.5 bg-orange-600 text-white rounded hover:bg-orange-700;
-}
-
-body {
-  @apply text-slate-700;
+  @apply py-2 px-3.5 bg-orange-500 text-white rounded hover:bg-orange-600;
 }
 
 .card {
-  @apply border border-slate-100 shadow-sm p-5 w-max rounded-md;
+  @apply border border-slate-100 shadow-sm shadow-orange-200 p-5 rounded-md bg-white;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6;
+}
+
+input[type="checkbox"]:checked + span {
+  @apply bg-orange-500
 }
