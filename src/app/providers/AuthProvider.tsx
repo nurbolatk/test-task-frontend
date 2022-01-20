@@ -32,7 +32,6 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
       }
     })
   }, [setData])
-  console.log('ap', error)
 
   const value = React.useMemo(() => ({ user, error, login, logout }), [login, logout, error, user])
 
@@ -45,7 +44,6 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
 
 function useAuth() {
   const context = React.useContext(AuthContext)
-  console.log(context)
   if (context === undefined) {
     throw new Error(`useAuth must be used within a AuthProvider`)
   }

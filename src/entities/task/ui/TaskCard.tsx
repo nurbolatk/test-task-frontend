@@ -3,7 +3,7 @@ import { Task, getTaskStatus, getOppositeStatus, adminitizeStatus } from '../mod
 import { Checkbox } from 'shared/ui'
 import { CheckMarkIcon, EditIcon, EmailIcon, UserIcon } from 'shared/ui/icons'
 import { useAsync } from 'shared/client'
-import { useAuth } from 'app/providers'
+import { useAuth, useTasks } from 'app/providers'
 import { updateTask } from 'shared/api/tasks'
 import { useNavigate } from 'react-router'
 
@@ -15,16 +15,15 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
   const { user } = useAuth()
   const token = user?.token ?? ''
   const { run } = useAsync()
+  const { getTasks } = useTasks()
   const [editMode, setEditMode] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const navigate = useNavigate()
-
   const handleStatusChange = useCallback(() => {
     run(updateTask(task.id, { status: getOppositeStatus(task.status) }, token)).then(() => {
-      navigate('/login')
+      getTasks(true)
     })
-  }, [navigate, run, task.id, task.status, token])
+  }, [getTasks, run, task.id, task.status, token])
 
   const handleEditClick = useCallback(() => {
     if (editMode) {

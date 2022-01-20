@@ -4,7 +4,7 @@ import { fetchTasks, TASKS_PER_PAGE } from 'shared/api/tasks'
 import { usePagination } from 'shared/utils'
 
 type TasksStore = {
-  getTasks: () => Promise<void>
+  getTasks: (force?: boolean) => void
   nextPage: () => void
   prevPage: () => void
   page: number
@@ -26,25 +26,28 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
   const { page, prevPage, nextPage } = usePagination()
 
   const getTasks = useCallback(
-    () =>
-      fetchTasks(page)
-        .then((result) => {
-          const { totalCount } = result
-          const totalPages = Math.ceil(totalCount / TASKS_PER_PAGE)
+    (force = false) => {
+      if (force || !state.tasks[page - 1]) {
+        fetchTasks(page)
+          .then((result) => {
+            const { totalCount } = result
+            const totalPages = Math.ceil(totalCount / TASKS_PER_PAGE)
 
-          setState((state) => {
-            const tasks = [...state.tasks]
-            tasks[page - 1] = result.tasks
-            return {
-              tasks,
-              totalCount,
-            }
+            setState((state) => {
+              const tasks = [...state.tasks]
+              tasks[page - 1] = result.tasks
+              return {
+                tasks,
+                totalCount,
+              }
+            })
           })
-        })
-        .catch((error) => {
-          console.log(error)
-        }),
-    [page]
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    },
+    [page, state.tasks]
   )
 
   const value = {
