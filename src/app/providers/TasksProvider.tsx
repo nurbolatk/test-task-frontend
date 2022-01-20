@@ -4,7 +4,7 @@ import { fetchTasks, TASKS_PER_PAGE } from 'shared/api/tasks'
 import { usePagination } from 'shared/utils'
 
 type TasksStore = {
-  getTasks: (force?: boolean) => void
+  getTasks: (force?: boolean) => Promise<void> | undefined
   nextPage: () => void
   prevPage: () => void
   page: number
@@ -28,7 +28,7 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
   const getTasks = useCallback(
     (force = false) => {
       if (force || !state.tasks[page - 1]) {
-        fetchTasks(page)
+        return fetchTasks(page)
           .then((result) => {
             const { totalCount } = result
             const totalPages = Math.ceil(totalCount / TASKS_PER_PAGE)

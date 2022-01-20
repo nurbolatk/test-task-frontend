@@ -13,14 +13,17 @@ type Props = {
 export const TaskCard = ({ task }: Props): JSX.Element => {
   const { user } = useAuth()
   const token = user?.token ?? ''
+  const isAdmin = !!token
+
   const { run, isLoading } = useAsync()
   const { getTasks } = useTasks()
+
   const [editMode, setEditMode] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleStatusChange = useCallback(() => {
     run(updateTask(task.id, { status: getOppositeStatus(task.status) }, token)).then(() => {
-      getTasks(true)
+      run(getTasks(true) as Promise<void>)
     })
   }, [getTasks, run, task.id, task.status, token])
 
@@ -30,21 +33,26 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
       const newText = inputRef.current?.value ?? task.text
       if (newText !== task.text) {
         const newStatus = adminitizeStatus(task.status)
-        run(updateTask(task.id, { text: newText, status: newStatus }, token))
+        run(updateTask(task.id, { text: newText, status: newStatus }, token)).then(() =>
+          run(getTasks(true) as Promise<void>)
+        )
         setEditMode(false)
       }
     } else {
       setEditMode(true)
     }
-  }, [editMode, run, task, token])
+  }, [editMode, getTasks, run, task, token])
 
   const taskStatus = getTaskStatus(task.status)
 
-  const isAdmin = !!user?.token
-
   return (
     <div className="card relative ">
-      <Checkbox id={String(task.id)} checked={taskStatus.checked} onChange={handleStatusChange}>
+      <Checkbox
+        id={String(task.id)}
+        checked={taskStatus.checked}
+        onChange={handleStatusChange}
+        className={!isAdmin ? 'cursor-auto pointer-events-none' : ''}
+        disabled={!isAdmin}>
         {taskStatus.status}
       </Checkbox>
       <div className={`bg-orange-200 px-5 py-4 -mx-5 mt-3 ${isAdmin ? 'group' : ''}`}>

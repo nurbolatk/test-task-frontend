@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTasks } from '../app/providers'
-import { TaskCard } from '../entities/task'
+import { SortTask, TaskCard } from '../entities/task'
 
 export const HomePage = (): JSX.Element => {
   const { getTasks, tasks, nextPage, prevPage } = useTasks()
@@ -14,6 +14,7 @@ export const HomePage = (): JSX.Element => {
     <div className="container">
       <h2 className="flex items-center justify-between">
         Задачи
+        <SortTask />
         <Link to="/tasks/create" className="button">
           Создать
         </Link>
