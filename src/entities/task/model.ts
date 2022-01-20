@@ -47,3 +47,14 @@ const opposites = {
 export function getOppositeStatus(oldStatus: TaskStatus) {
   return opposites[oldStatus]
 }
+
+const adminitized = {
+  0: 1,
+  1: 1,
+  10: 11,
+  11: 11,
+}
+
+export function adminitizeStatus(oldStatus: TaskStatus) {
+  return adminitized[oldStatus]
+}

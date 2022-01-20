@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
-import { Task, getTaskStatus, getOppositeStatus } from '../model'
+import React, { useCallback, useRef, useState } from 'react'
+import { Task, getTaskStatus, getOppositeStatus, adminitizeStatus } from '../model'
 import { Checkbox } from 'shared/ui'
-import { EditIcon, EmailIcon, UserIcon } from 'shared/ui/icons'
+import { CheckMarkIcon, EditIcon, EmailIcon, UserIcon } from 'shared/ui/icons'
 import { useAsync } from 'shared/client'
 import { useAuth } from 'app/providers'
-import { updateTask } from '../../../shared/api/tasks/updateTask'
+import { updateTask } from 'shared/api/tasks'
 import { useNavigate } from 'react-router'
 
 type Props = {
@@ -13,16 +13,32 @@ type Props = {
 
 export const TaskCard = ({ task }: Props): JSX.Element => {
   const { user } = useAuth()
+  const token = user?.token ?? ''
   const { run } = useAsync()
+  const [editMode, setEditMode] = useState<boolean>(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const navigate = useNavigate()
 
   const handleStatusChange = useCallback(() => {
-    run(updateTask(task.id, { status: getOppositeStatus(task.status) }, user?.token ?? '')).then(
-      () => {
-        navigate('/login')
+    run(updateTask(task.id, { status: getOppositeStatus(task.status) }, token)).then(() => {
+      navigate('/login')
+    })
+  }, [navigate, run, task.id, task.status, token])
+
+  const handleEditClick = useCallback(() => {
+    if (editMode) {
+      // send request
+      const newText = inputRef.current?.value ?? task.text
+      if (newText !== task.text) {
+        const newStatus = adminitizeStatus(task.status)
+        run(updateTask(task.id, { text: newText, status: newStatus }, token))
+        setEditMode(false)
       }
-    )
-  }, [navigate, run, task.id, task.status, user?.token])
+    } else {
+      setEditMode(true)
+    }
+  }, [editMode, run, task, token])
 
   const taskStatus = getTaskStatus(task.status)
 
@@ -33,12 +49,18 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
       <Checkbox id={String(task.id)} checked={taskStatus.checked} onChange={handleStatusChange}>
         {taskStatus.status}
       </Checkbox>
-      <div className={`bg-orange-200 p-5 -mx-5 mt-3 ${isAdmin ? 'group' : ''}`}>
+      <div className={`bg-orange-200 px-5 py-4 -mx-5 mt-3 ${isAdmin ? 'group' : ''}`}>
         <div className="flex items-center justify-between">
-          {task.text}
+          {editMode ? (
+            <input ref={inputRef} className="input" type="text" defaultValue={task.text} />
+          ) : (
+            <p className="py-1.5">{task.text}</p>
+          )}
           {isAdmin && (
-            <button className="group-hover:opacity-100 opacity-0 text-orange-500 w-5 h-5">
-              <EditIcon />
+            <button
+              className="group-hover:opacity-100 opacity-0 text-orange-500 w-5 h-5 ml-3"
+              onClick={handleEditClick}>
+              {editMode ? <CheckMarkIcon /> : <EditIcon />}
             </button>
           )}
         </div>
