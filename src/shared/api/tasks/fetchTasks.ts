@@ -4,7 +4,7 @@ import { client } from 'shared/client'
 export const fetchTasks = async (
   page = 1,
   sortField: SortField = SortField.ID,
-  sortDir: SortDir = 'asc'
+  sortDir: SortDirection = SortDirection.ASC
 ) => {
   const queryParams = new URLSearchParams()
   queryParams.append('page', String(page))
@@ -32,4 +32,7 @@ export enum SortField {
   STATUS = 'status',
 }
 
-type SortDir = 'asc' | 'desc'
+export enum SortDirection {
+  ASC = 'asc',
+  DESC = 'desc',
+}

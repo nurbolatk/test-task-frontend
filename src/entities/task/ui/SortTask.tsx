@@ -1,6 +1,7 @@
 import React from 'react'
 import { Select } from 'shared/ui'
-import { SortField } from '../../../shared/api/tasks'
+import { SortField } from 'shared/api/tasks'
+import { useTasks } from '../../../app/providers'
 
 const options = [
   {
@@ -34,5 +35,18 @@ const options = [
 ]
 
 export const SortTask = (): JSX.Element => {
-  return <Select options={options} selected={<p>{options[0].label}</p>} />
+  const {
+    state: { sortField, isAsc },
+  } = useTasks()
+  const currentSort = options.find((option) => option.id === sortField)
+
+  return (
+    <Select options={options} selected={<p>{options[0].label}</p>}>
+      {options.map((option) => (
+        <Select.Option key={option.id} option={option}>
+          <button>{option.label}</button>
+        </Select.Option>
+      ))}
+    </Select>
+  )
 }

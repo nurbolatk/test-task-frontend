@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react'
 
 export type SelectOption = {
   id: string | number
@@ -11,7 +11,7 @@ type Props = {
   options: SelectOption[]
 }
 
-export const Select = ({ selected, options }: Props): JSX.Element => {
+const Select = ({ selected, options, children }: PropsWithChildren<Props>): JSX.Element => {
   const [show, setShow] = useState(true)
   const toggleShow = () => setShow(!show)
 
@@ -39,14 +39,7 @@ export const Select = ({ selected, options }: Props): JSX.Element => {
         shadow shadow-zinc-300 w-max divide-y divide-zinc-100 ${
           show ? 'translate-y-0 opacity-100' : 'visually-hidden'
         }`}>
-          {options.map((option) => (
-            <button
-              key={option.id}
-              onClick={() => option.onClick(option.id)}
-              className="flex w-full items-center px-4 py-2 hover:bg-orange-100">
-              {option.label}
-            </button>
-          ))}
+          {children}
         </ul>
       </div>
       {show && (
@@ -60,3 +53,41 @@ export const Select = ({ selected, options }: Props): JSX.Element => {
     </>
   )
 }
+
+type OptionProps = {
+  children?: ReactElement
+  option: SelectOption
+}
+
+const Option = ({ children, option }: PropsWithChildren<OptionProps>): JSX.Element => {
+  if (children) {
+    const child = children as ReactElement
+    return React.cloneElement(child, {
+      onClick: () => option.onClick(option.id),
+      className: `flex w-full items-center px-4 py-2 hover:bg-orange-100 ${child.props.className}`,
+    })
+  }
+  return (
+    <button
+      onClick={() => option.onClick(option.id)}
+      className="flex w-full items-center px-4 py-2 hover:bg-orange-100">
+      {option.label}
+    </button>
+  )
+}
+
+const Target = ({ children, option }: OptionProps): JSX.Element => {
+  if (children) {
+    const child = children as ReactElement
+    return React.cloneElement(child, {
+      onClick: () => option.onClick(option.id),
+      className: `flex w-full items-center px-4 py-2 hover:bg-orange-100 ${child.props.className}`,
+    })
+  }
+  ;<button className="p-2" onClick={toggleShow}>
+    {selected ?? 'Выберите...'}
+  </button>
+}
+
+Select.Option = Option
+export { Select }
