@@ -7,7 +7,7 @@ export function App() {
   return (
     <>
       <Navbar />
-      <main className="mt-6">
+      <main className="my-6">
         <Outlet />
       </main>
     </>

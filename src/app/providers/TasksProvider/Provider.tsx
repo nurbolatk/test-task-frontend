@@ -9,6 +9,7 @@ export type TasksStore = {
   getTasks: (force?: boolean) => Promise<void> | undefined
   totalPages: number
   tasks: Task[]
+  isLoading: boolean
 }
 
 const TasksContext = React.createContext<TasksStore | undefined>(undefined)
@@ -61,11 +62,14 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
     [currentPageTasks, page, sortDirection, sortField]
   )
 
+  const isLoading = state.status === 'idle' || state.status === 'pending'
+
   const value = {
     tasks: state.tasks.get(page - 1) ?? [],
     getTasks,
     totalPages,
     state,
+    isLoading,
   }
 
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>

@@ -2,12 +2,10 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTasks } from '../app/providers'
 import { SortTask, TaskCard } from '../entities/task'
-import { Pagination } from '../shared/ui'
+import { Pagination, Skeleton } from '../shared/ui'
 
 export const HomePage = (): JSX.Element => {
-  const { getTasks, tasks, totalPages } = useTasks()
-
-  console.log({ getTasks })
+  const { getTasks, tasks, totalPages, isLoading } = useTasks()
 
   useEffect(() => {
     getTasks()
@@ -24,9 +22,15 @@ export const HomePage = (): JSX.Element => {
       </div>
       <div>
         <div className="grid md:grid-cols-3 gap-3">
-          {tasks.map((task) => (
-            <TaskCard task={task} key={task.id} />
-          ))}
+          {isLoading ? (
+            <>
+              <Skeleton className="w-full h-[12rem]" />
+              <Skeleton className="w-full h-[12rem]" />
+              <Skeleton className="w-full h-[12rem]" />
+            </>
+          ) : (
+            tasks.map((task) => <TaskCard task={task} key={task.id} />)
+          )}
         </div>
 
         <Pagination totalPages={totalPages} />
