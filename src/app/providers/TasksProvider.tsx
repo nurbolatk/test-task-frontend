@@ -1,13 +1,11 @@
-import React, { PropsWithChildren, Reducer, useCallback, useReducer, useState } from 'react'
+import React, { PropsWithChildren, Reducer, useCallback, useReducer } from 'react'
 import { Task } from 'entities/task'
 import { fetchTasks, SortField, TASKS_PER_PAGE } from 'shared/api/tasks'
-import { usePagination } from 'shared/utils'
+import { useSearchParams } from 'react-router-dom'
 
 type TasksStore = {
   getTasks: (force?: boolean) => Promise<void> | undefined
-  nextPage: () => void
-  prevPage: () => void
-  page: number
+  totalPages: number
   tasks: Task[]
   sortBy: (newSort: SortField) => void
   state: InternalState
@@ -61,7 +59,9 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
     isAsc: true,
   })
 
-  const { page, prevPage, nextPage } = usePagination()
+  const [queryParams] = useSearchParams()
+  const pageString = queryParams.get('page')
+  const page = parseInt(pageString ?? '1')
   const totalPages = Math.ceil(state.totalCount / TASKS_PER_PAGE)
 
   const getTasks = useCallback(
@@ -98,9 +98,7 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
   const value = {
     tasks: state.tasks.get(page - 1) ?? [],
     getTasks,
-    nextPage,
-    prevPage,
-    page,
+    totalPages,
     sortBy,
     state,
   }

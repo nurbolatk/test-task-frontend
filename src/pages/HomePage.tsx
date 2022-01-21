@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTasks } from '../app/providers'
 import { SortTask, TaskCard } from '../entities/task'
+import { Pagination } from '../shared/ui'
 
 export const HomePage = (): JSX.Element => {
-  const { getTasks, tasks, nextPage, prevPage } = useTasks()
+  const { getTasks, tasks, totalPages } = useTasks()
 
   useEffect(() => {
     getTasks()
@@ -26,8 +27,7 @@ export const HomePage = (): JSX.Element => {
           ))}
         </div>
 
-        <button onClick={prevPage}>Previous</button>
-        <button onClick={nextPage}>Next</button>
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
   )

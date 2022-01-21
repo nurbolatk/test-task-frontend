@@ -25,5 +25,15 @@ export function usePagination() {
     }
   }, [navigate, pageInt])
 
-  return { page: pageInt, nextPage, prevPage }
+  const setPage = useCallback(
+    (page: number) => {
+      navigate({
+        pathname: '/',
+        search: `page=${page}`,
+      })
+    },
+    [navigate]
+  )
+
+  return { page: pageInt, nextPage, prevPage, setPage }
 }
