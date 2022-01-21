@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, Reducer, useCallback, useReducer, useState } from 'react'
 import { Task } from 'entities/task'
-import { fetchTasks, SortDirection, SortField, TASKS_PER_PAGE } from 'shared/api/tasks'
+import { fetchTasks, SortField, TASKS_PER_PAGE } from 'shared/api/tasks'
 import { usePagination } from 'shared/utils'
 
 type TasksStore = {
@@ -44,6 +44,7 @@ const reducer: Reducer<InternalState, ActionType> = (state: InternalState, actio
     case 'SORT_BY':
       return {
         ...state,
+        tasks: new Map(),
         sortField: action.payload,
         isAsc: action.payload === state.sortField ? !state.isAsc : state.isAsc,
       }
@@ -65,9 +66,8 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const getTasks = useCallback(
     (force = false) => {
-      console.log({ force })
       if (force || !state.tasks.get(page - 1)) {
-        return fetchTasks(page)
+        return fetchTasks(page, state.sortField, state.isAsc)
           .then((result) => {
             const { totalCount, tasks } = result
 
@@ -85,7 +85,7 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
           })
       }
     },
-    [page, state.tasks]
+    [page, state.isAsc, state.sortField, state.tasks]
   )
 
   const sortBy = useCallback((newSort: SortField) => {

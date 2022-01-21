@@ -1,15 +1,11 @@
 import { Task } from 'entities/task'
 import { client } from 'shared/client'
 
-export const fetchTasks = async (
-  page = 1,
-  sortField: SortField = SortField.ID,
-  sortDir: SortDirection = SortDirection.ASC
-) => {
+export const fetchTasks = async (page = 1, sortField: SortField = SortField.ID, sortDir = true) => {
   const queryParams = new URLSearchParams()
   queryParams.append('page', String(page))
   queryParams.append('sort_field', sortField)
-  queryParams.append('sort_direction', sortDir)
+  queryParams.append('sort_direction', sortDir ? 'asc' : 'desc')
 
   const { tasks, total_task_count: totalCount } = await client<FetchTasksResult>('/', {
     queryParams,
@@ -30,9 +26,4 @@ export enum SortField {
   USERNAME = 'username',
   EMAIL = 'email',
   STATUS = 'status',
-}
-
-export enum SortDirection {
-  ASC = 'asc',
-  DESC = 'desc',
 }
