@@ -14,7 +14,7 @@ export const Pagination = ({ totalPages }: Props): JSX.Element | null => {
   }
 
   return totalPages > 0 ? (
-    <div className="space-x-3 mt-4 flex items-center">
+    <div className="gap-3 mt-4 flex flex-wrap items-center justify-center">
       <button className="button outlined" onClick={prevPage} disabled={page <= 1}>
         Назад
       </button>

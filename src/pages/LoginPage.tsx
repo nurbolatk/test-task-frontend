@@ -13,11 +13,11 @@ export const LoginPage = (): JSX.Element => {
         replace: true,
       })
     }
-  }, [])
+  }, [navigate, user])
 
   return (
     <section>
-      <div className="mx-auto card">
+      <div className="max-w-3xl mx-auto card">
         <h2 className="text-xl mb-4">Пожалуйста, войдите</h2>
         <LoginForm />
       </div>

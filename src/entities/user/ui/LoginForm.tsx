@@ -12,7 +12,7 @@ export const LoginForm = (): JSX.Element => {
   }
 
   return (
-    <form noValidate className="space-y-3" onSubmit={handleSubmit}>
+    <form noValidate className="space-y-4" onSubmit={handleSubmit}>
       <div>
         <input type="text" name="username" placeholder={'Имя пользователя'} className="input" />
         {errors?.username && <ErrorMessage message={errors.username} />}

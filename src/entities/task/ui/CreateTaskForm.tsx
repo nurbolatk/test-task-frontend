@@ -26,20 +26,20 @@ export const CreateTaskForm = (): JSX.Element => {
   }, [isSuccess])
 
   return (
-    <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-3">
+    <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-4">
       <div>
         <input type="text" className="input" name="username" placeholder="Имя пользователя" />
         {errors?.username && <ErrorMessage message={errors.username} />}
       </div>
       <div>
-        <input type="email" className="input" name="email" placeholder="Email" />
+        <input type="email" className="input" name="email" placeholder="Электронная почта" />
         {errors?.email && <ErrorMessage message={errors.email} />}
       </div>
       <div>
         <input type="text" className="input" name="text" placeholder="Текст задачи" />
         {errors?.text && <ErrorMessage message={errors.text} />}
       </div>
-      <button className="button">Submit</button>
+      <button className="button">Создать</button>
     </form>
   )
 }
