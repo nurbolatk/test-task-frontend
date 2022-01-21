@@ -7,6 +7,8 @@ import { Pagination } from '../shared/ui'
 export const HomePage = (): JSX.Element => {
   const { getTasks, tasks, totalPages } = useTasks()
 
+  console.log({ getTasks })
+
   useEffect(() => {
     getTasks()
   }, [getTasks])
@@ -21,7 +23,7 @@ export const HomePage = (): JSX.Element => {
         <SortTask />
       </div>
       <div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid md:grid-cols-3 gap-3">
           {tasks.map((task) => (
             <TaskCard task={task} key={task.id} />
           ))}

@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 
 export function usePagination() {
@@ -7,33 +7,28 @@ export function usePagination() {
   const page = queryParams.get('page')
   const pageInt = parseInt(page ?? '1')
   const navigate = useNavigate()
-
-  const nextPage = useCallback(() => {
-    navigate({
-      pathname: '/',
-      search: `page=${pageInt + 1}`,
-    })
-  }, [navigate, pageInt])
-  console.log({ page })
-
-  const prevPage = useCallback(() => {
-    if (pageInt > 1) {
-      navigate({
-        pathname: '/',
-        search: `page=${pageInt - 1}`,
-      })
-    }
-  }, [navigate, pageInt])
+  const location = useLocation()
 
   const setPage = useCallback(
     (page: number) => {
+      queryParams.set('page', String(page))
       navigate({
-        pathname: '/',
-        search: `page=${page}`,
+        pathname: location.pathname,
+        search: queryParams.toString(),
       })
     },
-    [navigate]
+    [location.pathname, navigate, queryParams]
   )
+
+  const nextPage = useCallback(() => {
+    setPage(pageInt + 1)
+  }, [pageInt, setPage])
+
+  const prevPage = useCallback(() => {
+    if (pageInt > 1) {
+      setPage(pageInt - 1)
+    }
+  }, [pageInt, setPage])
 
   return { page: pageInt, nextPage, prevPage, setPage }
 }

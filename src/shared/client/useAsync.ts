@@ -1,9 +1,11 @@
 import { useLayoutEffect } from 'react'
 import { Dispatch, useCallback, useReducer, useRef } from 'react'
 
+export type RequestStatus = 'idle' | 'pending' | 'resolved' | 'rejected'
+
 type State<T> = {
   data: T | null
-  status: 'idle' | 'pending' | 'resolved' | 'rejected'
+  status: RequestStatus
   error: Record<string, string> | null
 }
 

@@ -75,7 +75,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
         )}
       </div>
 
-      <div className="flex items-center gap-3 mt-3">
+      <div className="flex flex-wrap items-center gap-3 mt-3">
         <p className="flex gap-2 items-center">
           <UserIcon className="w-4 h-4 text-orange-200" /> {task.username}
         </p>

@@ -24,7 +24,7 @@ export const Pagination = ({ totalPages }: Props): JSX.Element | null => {
           <button
             key={index}
             onClick={() => setPage(thisPage)}
-            className={`button w-11 h-11 ${currentPageStyles(thisPage)}`}>
+            className={`button w-10 h-10 ${currentPageStyles(thisPage)}`}>
             {thisPage}
           </button>
         )
