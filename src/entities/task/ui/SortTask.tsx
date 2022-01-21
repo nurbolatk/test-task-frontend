@@ -1,52 +1,58 @@
 import React from 'react'
 import { Select } from 'shared/ui'
 import { SortField } from 'shared/api/tasks'
-import { useTasks } from '../../../app/providers'
+import { useTasks } from 'app/providers'
+import { ChevronIcon } from 'shared/ui/icons'
 
 const options = [
   {
     id: SortField.ID,
     label: 'Сортировать по ID',
-    onClick: function () {
-      console.log(this.label)
-    },
   },
   {
     id: SortField.USERNAME,
     label: 'Сортировать по имени',
-    onClick: function () {
-      console.log(this.label)
-    },
   },
   {
     id: SortField.EMAIL,
     label: 'Сортировать по эл.почте',
-    onClick: function () {
-      console.log(this.label)
-    },
   },
   {
     id: SortField.STATUS,
     label: 'Сортировать по статусу',
-    onClick: function () {
-      console.log(this.label)
-    },
   },
 ]
 
 export const SortTask = (): JSX.Element => {
   const {
     state: { sortField, isAsc },
+    sortBy,
   } = useTasks()
-  const currentSort = options.find((option) => option.id === sortField)
+
+  const currentSort = options.find((option) => option.id === sortField) ?? options[0]
+  const handleOptionClick = (newSort: SortField) => {
+    sortBy(newSort)
+  }
 
   return (
-    <Select options={options} selected={<p>{options[0].label}</p>}>
-      {options.map((option) => (
-        <Select.Option key={option.id} option={option}>
-          <button>{option.label}</button>
-        </Select.Option>
-      ))}
+    <Select>
+      <Select.Target>
+        <button className="flex items-center gap-2">
+          {currentSort.label}
+          <ChevronIcon direction={isAsc ? 'up' : 'down'} className="w-4 h-4" />
+        </button>
+      </Select.Target>
+      <Select.Content>
+        {options.map((option) => (
+          <Select.Option key={option.id} option={option}>
+            <button
+              onClick={() => handleOptionClick(option.id)}
+              className={option.id === currentSort.id ? 'font-bold' : ''}>
+              {option.label}
+            </button>
+          </Select.Option>
+        ))}
+      </Select.Content>
     </Select>
   )
 }
