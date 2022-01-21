@@ -63,7 +63,7 @@ const Content = ({ children }: WithChildren): JSX.Element => {
 
   return (
     <ul
-      className={`transition-all -translate-y-2 opacity-0 z-10 absolute 
+      className={`transition-all -translate-y-2 z-10 absolute 
         bg-white rounded overflow-hidden border-zinc-100 
         shadow shadow-zinc-300 w-max divide-y divide-zinc-100 ${
           show ? 'translate-y-0 opacity-100' : 'visually-hidden'

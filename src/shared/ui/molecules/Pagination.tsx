@@ -15,7 +15,7 @@ export const Pagination = ({ totalPages }: Props): JSX.Element | null => {
 
   return totalPages > 0 ? (
     <div className="space-x-3 mt-4 flex items-center">
-      <button className="button" onClick={prevPage} disabled={page <= 1}>
+      <button className="button outlined" onClick={prevPage} disabled={page <= 1}>
         Назад
       </button>
       {Array.from({ length: totalPages }).map((_, index) => {
@@ -29,7 +29,7 @@ export const Pagination = ({ totalPages }: Props): JSX.Element | null => {
           </button>
         )
       })}
-      <button className="button" onClick={nextPage} disabled={page >= totalPages}>
+      <button className="button outlined" onClick={nextPage} disabled={page >= totalPages}>
         Вперед
       </button>
     </div>

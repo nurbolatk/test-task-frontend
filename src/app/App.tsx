@@ -1,17 +1,15 @@
 import React from 'react'
 import './styles/index.css'
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import { Navbar } from 'widgets'
 
 export function App() {
   return (
     <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-        </nav>
-      </header>
-      <Outlet />
+      <Navbar />
+      <main className="mt-6">
+        <Outlet />
+      </main>
     </>
   )
 }

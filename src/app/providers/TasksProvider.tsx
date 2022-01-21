@@ -88,12 +88,16 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
     [page, state.isAsc, state.sortField, state.tasks]
   )
 
-  const sortBy = useCallback((newSort: SortField) => {
-    dispatch({
-      type: 'SORT_BY',
-      payload: newSort,
-    })
-  }, [])
+  const sortBy = useCallback(
+    (newSort: SortField) => {
+      dispatch({
+        type: 'SORT_BY',
+        payload: newSort,
+      })
+      console.log({ ...state })
+    },
+    [state]
+  )
 
   const value = {
     tasks: state.tasks.get(page - 1) ?? [],
@@ -108,7 +112,6 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
 
 function useTasks() {
   const context = React.useContext(TasksContext)
-  console.log(context)
   if (context === undefined) {
     throw new Error(`useAuth must be used within a AuthProvider`)
   }

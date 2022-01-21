@@ -15,8 +15,12 @@ body {
   @apply py-2 px-3.5 bg-orange-500 text-white rounded hover:bg-orange-600 border-2 border-orange-500 hover:border-orange-600;
 }
 
-.outlined {
-  @apply  bg-white text-orange-500 hover:text-white
+.button.outlined {
+  @apply bg-white text-orange-500 hover:text-white hover:bg-orange-600;
+}
+
+.button.circle {
+  @apply rounded-full;
 }
 
 .card {
@@ -28,5 +32,13 @@ body {
 }
 
 input[type="checkbox"]:checked + span {
-  @apply bg-orange-500
+  @apply bg-orange-500;
+}
+
+.visually-hidden {
+  @apply opacity-0 pointer-events-none;
+}
+
+h2 {
+  @apply text-3xl
 }

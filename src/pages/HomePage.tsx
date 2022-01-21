@@ -13,13 +13,13 @@ export const HomePage = (): JSX.Element => {
 
   return (
     <div className="container">
-      <h2 className="flex items-center justify-between">
-        Задачи
-        <SortTask />
-        <Link to="/tasks/create" className="button">
+      <div className="flex items-center mb-3">
+        <h2 className="mr-3">Задачи</h2>
+        <Link to="/tasks/create" className="button mr-auto">
           Создать
         </Link>
-      </h2>
+        <SortTask />
+      </div>
       <div>
         <div className="grid grid-cols-3 gap-3">
           {tasks.map((task) => (
