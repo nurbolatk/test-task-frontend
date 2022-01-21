@@ -12,7 +12,7 @@ export const HomePage = (): JSX.Element => {
   }, [getTasks])
 
   return (
-    <div className="container">
+    <div>
       <div className="flex items-center mb-3">
         <h2 className="mr-3">Задачи</h2>
         <Link to="/tasks/create" className="button mr-auto">

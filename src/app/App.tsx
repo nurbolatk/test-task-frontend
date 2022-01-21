@@ -7,7 +7,7 @@ export function App() {
   return (
     <>
       <Navbar />
-      <main className="my-6">
+      <main className="my-6 container">
         <Outlet />
       </main>
     </>
