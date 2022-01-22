@@ -1,12 +1,15 @@
 import React, { PropsWithChildren } from 'react'
-import { AuthProvider, TasksProvider } from '.'
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider, TasksProvider } from '../'
+import { LocationProvider } from '../LocationProvider'
 
 export const AppProviders = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <TasksProvider>{children}</TasksProvider>
+        <LocationProvider>
+          <TasksProvider>{children}</TasksProvider>
+        </LocationProvider>
       </BrowserRouter>
     </AuthProvider>
   )

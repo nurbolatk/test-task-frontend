@@ -1,12 +1,9 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SelectContext } from './context'
 import { Target } from './lib/Target'
 import { Content } from './lib/Content'
 import { Option } from './lib/Option'
-
-export type WithChildren = {
-  children?: ReactElement | ReactNode[]
-}
+import { WithChildren } from 'shared/ui'
 
 const Select = ({ children }: WithChildren): JSX.Element => {
   const [show, setShow] = useState(false)

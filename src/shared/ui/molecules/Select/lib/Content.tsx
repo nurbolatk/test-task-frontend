@@ -1,5 +1,5 @@
 import React from 'react'
-import { WithChildren } from '../Component'
+import { WithChildren } from 'shared/ui'
 import { useSelectState } from '../context'
 
 export const Content = ({ children }: WithChildren): JSX.Element => {

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { WithChildren } from '../Component'
+import { WithChildren } from 'shared/ui'
 import { callAll } from 'shared/utils'
 import { useSelectState } from '../context'
 
