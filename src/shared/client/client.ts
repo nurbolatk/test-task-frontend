@@ -1,7 +1,8 @@
 import { logout } from '../api/auth'
 import { GeneralError } from './types'
 
-const api = 'https://uxcandy.com/~shapoval/test-task-backend/v2'
+const api = process.env.REACT_APP_BACKEND_URL
+const developer = process.env.REACT_APP_DEV_NAME
 
 type ClientOptions = Partial<
   {
@@ -44,7 +45,7 @@ export const client = async <T>(endpoint: string, options: ClientOptions): Promi
   }
 
   return window
-    .fetch(`${api}${endpoint}?${queryParams?.toString()}`, config)
+    .fetch(`${api}${endpoint}?developer=${developer}&${queryParams?.toString()}`, config)
     .then(async (response) => {
       if (response.status === 401) {
         return handleAuthError()
