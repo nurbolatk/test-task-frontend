@@ -11,9 +11,8 @@ type Props = {
 }
 
 export const TaskCard = ({ task }: Props): JSX.Element => {
-  const { user } = useAuth()
+  const { user, isAdmin } = useAuth()
   const token = user?.token ?? ''
-  const isAdmin = !!token
 
   const { run, isLoading, error, setError } = useAsync()
   const { getTasks } = useTasks()
@@ -31,7 +30,6 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
     (e: React.FormEvent) => {
       e.preventDefault()
       if (editMode) {
-        // send request
         const newText = inputRef.current?.value === undefined ? '' : inputRef.current?.value
         if (newText !== task.text) {
           if (newText.length === 0) {
