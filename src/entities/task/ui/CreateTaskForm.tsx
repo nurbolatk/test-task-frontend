@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { ErrorMessage } from 'shared/ui'
+import { ErrorMessage, OverlayLoader } from 'shared/ui'
 import { useAsync } from 'shared/client'
 import { createTask } from 'shared/api/tasks'
 
 export const CreateTaskForm = (): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
-  const { run, isSuccess, error: errors } = useAsync()
+  const { run, isSuccess, isLoading, error: errors } = useAsync()
 
   const handleSubmit = (event: React.FormEvent<CreateTaskFormElement>) => {
     event.preventDefault()
@@ -26,7 +26,8 @@ export const CreateTaskForm = (): JSX.Element => {
   }, [isSuccess])
 
   return (
-    <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-4">
+    <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-4 relative">
+      {isSuccess && <p className="text-green-500">Задача добавлена!</p>}
       <div>
         <input type="text" className="input" name="username" placeholder="Имя пользователя" />
         {errors?.username && <ErrorMessage message={errors.username} />}
@@ -40,6 +41,7 @@ export const CreateTaskForm = (): JSX.Element => {
         {errors?.text && <ErrorMessage message={errors.text} />}
       </div>
       <button className="button">Создать</button>
+      {isLoading && <OverlayLoader />}
     </form>
   )
 }
