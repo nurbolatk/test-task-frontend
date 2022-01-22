@@ -5,12 +5,12 @@ import { LocationProvider } from '../LocationProvider'
 
 export const AppProviders = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <LocationProvider>
+    <BrowserRouter>
+      <LocationProvider>
+        <AuthProvider>
           <TasksProvider>{children}</TasksProvider>
-        </LocationProvider>
-      </BrowserRouter>
-    </AuthProvider>
+        </AuthProvider>
+      </LocationProvider>
+    </BrowserRouter>
   )
 }
