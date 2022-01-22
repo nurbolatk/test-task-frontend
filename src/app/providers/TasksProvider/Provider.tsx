@@ -1,9 +1,11 @@
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useReducer } from 'react'
-import { fetchTasks, SortField, TASKS_PER_PAGE } from 'shared/api/tasks'
+import { SortField, TASKS_PER_PAGE } from 'shared/api/tasks'
 import { useSearchParams } from 'react-router-dom'
 import { reducer } from './reducer'
-import { Task } from 'entities/task'
+import * as taskModel from 'entities/task/model'
 import { useSorting } from 'shared/utils'
+
+type Task = taskModel.Task
 
 export type TasksStore = {
   getTasks: (force?: boolean) => Promise<void> | undefined
@@ -41,10 +43,9 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
           type: 'SET_STATUS',
           payload: 'pending',
         })
-        return fetchTasks(page, sortField as SortField, sortDirection)
-          .then((result) => {
-            const { totalCount, tasks } = result
-
+        return taskModel
+          .getTasks(page, sortField as SortField, sortDirection)
+          .then(({ tasks, totalCount }) => {
             dispatch({
               type: 'SET_TASKS',
               payload: {

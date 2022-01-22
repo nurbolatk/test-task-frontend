@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { Task, getTaskStatus, getOppositeStatus, adminitizeStatus } from '../model'
+import { Task, getOppositeStatus, adminitizeStatus } from '../model'
 import { Checkbox, StatusMessage, OverlayLoader, StatusMessageList } from 'shared/ui'
 import { CheckMarkIcon, EditIcon, EmailIcon, UserIcon } from 'shared/ui/icons'
 import { useAsync } from 'shared/client'
@@ -21,10 +21,10 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleStatusChange = useCallback(() => {
-    run(updateTask(task.id, { status: getOppositeStatus(task.status) }, token)).then(() => {
+    run(updateTask(task.id, { status: getOppositeStatus(task.statusCode) }, token)).then(() => {
       run(getTasks(true) as Promise<void>)
     })
-  }, [getTasks, run, task.id, task.status, token])
+  }, [getTasks, run, task.id, task.statusCode, token])
 
   const handleEditClick = useCallback(
     (e: React.FormEvent) => {
@@ -35,7 +35,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
           if (newText.length === 0) {
             return setError({ text: 'Текст задачи не может быть пустым' })
           }
-          const newStatus = adminitizeStatus(task.status)
+          const newStatus = adminitizeStatus(task.statusCode)
           run(updateTask(task.id, { text: newText, status: newStatus }, token)).then(() =>
             run(getTasks(true) as Promise<void>)
           )
@@ -45,21 +45,19 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
         setEditMode(true)
       }
     },
-    [editMode, getTasks, run, setError, task, token]
+    [editMode, getTasks, run, setError, task.id, task.statusCode, task.text, token]
   )
-
-  const taskStatus = getTaskStatus(task.status)
 
   return (
     <div className={`card relative flex flex-col ${isAdmin ? 'group' : ''}`}>
       <StatusMessageList messages={error} variant="error" className="mb-3" />
       <Checkbox
         id={String(task.id)}
-        checked={taskStatus.checked}
+        checked={task.checked}
         onChange={handleStatusChange}
         className={!isAdmin ? 'cursor-auto pointer-events-none' : ''}
         disabled={!isAdmin}>
-        {taskStatus.status}
+        {task.status}
       </Checkbox>
       <div className="bg-orange-200 px-5 py-4 -mx-5 mt-3">
         <form className="flex items-center justify-between" onSubmit={handleEditClick}>
@@ -76,7 +74,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
             </button>
           )}
         </form>
-        <StatusMessage variant="info" message={taskStatus} index="helperText" />
+        <StatusMessage variant="info" message={task} index="helperStatus" />
       </div>
 
       <div className="flex flex-wrap flex-1 items-center gap-3 mt-3">
