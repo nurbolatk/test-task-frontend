@@ -37,6 +37,14 @@ const AuthProvider = ({ children }: PropsWithChildren<unknown>) => {
     })
   }, [setData])
 
+  useEffect(() => {
+    const listener = () => {
+      setData(null)
+    }
+    window.addEventListener('storage', listener)
+    return () => window.removeEventListener('storage', listener)
+  }, [setData])
+
   const isAdmin = !!user?.token
   const value = React.useMemo(
     () => ({ user, isAdmin, error, login, logout }),
