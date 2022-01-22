@@ -20,13 +20,11 @@ export const CreateTaskForm = (): JSX.Element => {
     }
   }, [isSuccess])
 
+  const successMessage = isSuccess ? { task: 'Задача добавлена!' } : null
+
   return (
     <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-4 relative">
-      <StatusMessage
-        variant="success"
-        index="task"
-        message={isSuccess ? { task: 'Задача добавлена!' } : null}
-      />
+      <StatusMessage variant="success" index="task" message={successMessage} />
       <InputGroup error={error} name="username" type="text" placeholder="Имя пользователя" />
       <InputGroup error={error} type="email" name="email" placeholder="Электронная почта" />
       <InputGroup error={error} type="text" name="text" placeholder="Текст задачи" />

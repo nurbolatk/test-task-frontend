@@ -7,19 +7,19 @@ import { useSorting } from 'shared/utils'
 const options = [
   {
     id: SortField.ID,
-    label: 'Сортировать по ID',
+    label: 'По ID',
   },
   {
     id: SortField.USERNAME,
-    label: 'Сортировать по имени',
+    label: 'По имени пользователя',
   },
   {
     id: SortField.EMAIL,
-    label: 'Сортировать по эл.почте',
+    label: 'По эл.почте',
   },
   {
     id: SortField.STATUS,
-    label: 'Сортировать по статусу',
+    label: 'По статусу',
   },
 ]
 
