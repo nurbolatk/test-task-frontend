@@ -37,7 +37,7 @@ export function useAsync<T>(initialState?: State<T>) {
   )
 
   const setError = useCallback(
-    (error) => {
+    (error: Record<string, string>) => {
       dispatch({ status: 'rejected', error, data: null })
     },
     [dispatch]
