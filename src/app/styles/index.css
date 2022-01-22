@@ -25,6 +25,11 @@ h2 {
   @apply opacity-0 pointer-events-none;
 }
 
+.text-wrap {
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
 /* Components */
 .card {
   @apply border border-slate-100 shadow-sm shadow-orange-200 p-5 rounded-md bg-white;

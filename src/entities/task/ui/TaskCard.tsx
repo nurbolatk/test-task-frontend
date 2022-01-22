@@ -49,7 +49,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
   )
 
   return (
-    <div className={`card relative flex flex-col ${isAdmin ? 'group' : ''}`}>
+    <div className={`card relative flex flex-col text-wrap ${isAdmin ? 'group' : ''}`}>
       <StatusMessageList messages={error} variant="error" className="mb-3" />
       <Checkbox
         id={String(task.id)}
@@ -79,10 +79,10 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
 
       <div className="flex flex-wrap flex-1 items-center gap-3 mt-3">
         <p className="flex gap-2 items-center">
-          <UserIcon className="w-4 h-4 text-orange-200" /> {task.username}
+          <UserIcon className="w-3.5 h-3.5 text-orange-200 flex-shrink-0" /> {task.username}
         </p>
         <p className="flex gap-2 items-center">
-          <EmailIcon className="w-4 h-4 text-orange-200" />
+          <EmailIcon className="w-4 h-4 text-orange-200 flex-shrink-0" />
           {task.email}
         </p>
       </div>
