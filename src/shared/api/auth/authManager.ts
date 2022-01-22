@@ -1,7 +1,7 @@
 import { User } from 'entities/user'
 import { client } from 'shared/client'
 
-const localStorageKey = '__test-taks-token__'
+const localStorageKey = '__test-tasks-token__'
 
 async function getToken() {
   return window.localStorage.getItem(localStorageKey)

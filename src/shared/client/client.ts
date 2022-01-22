@@ -35,6 +35,7 @@ export const client = async <T>(endpoint: string, options: ClientOptions): Promi
       if (response.status === 401) {
         alert(401)
         logout()
+        window.location.assign('/')
         return Promise.reject({ message: 'Токен истек' })
       }
       const data = await response.json()

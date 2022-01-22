@@ -1,9 +1,10 @@
-import { Task } from 'entities/task'
 import { client } from 'shared/client'
+import { FetchTasksResult, SortField } from './types'
+import { DEFAULT_SORT_FIELD } from '../config'
 
 export const fetchTasks = async (
   page = 1,
-  sortField: SortField = SortField.ID,
+  sortField: SortField = DEFAULT_SORT_FIELD,
   sortDir: string
 ) => {
   const queryParams = new URLSearchParams()
@@ -18,16 +19,4 @@ export const fetchTasks = async (
     tasks,
     totalCount: parseInt(totalCount),
   }
-}
-
-type FetchTasksResult = {
-  tasks: Task[]
-  total_task_count: string
-}
-
-export enum SortField {
-  ID = 'id',
-  USERNAME = 'username',
-  EMAIL = 'email',
-  STATUS = 'status',
 }
