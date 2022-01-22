@@ -27,26 +27,30 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
     })
   }, [getTasks, run, task.id, task.status, token])
 
-  const handleEditClick = useCallback(() => {
-    if (editMode) {
-      // send request
-      const newText = inputRef.current?.value ?? task.text
-      if (newText !== task.text) {
-        const newStatus = adminitizeStatus(task.status)
-        run(updateTask(task.id, { text: newText, status: newStatus }, token)).then(() =>
-          run(getTasks(true) as Promise<void>)
-        )
+  const handleEditClick = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault()
+      if (editMode) {
+        // send request
+        const newText = inputRef.current?.value ?? task.text
+        if (newText !== task.text) {
+          const newStatus = adminitizeStatus(task.status)
+          run(updateTask(task.id, { text: newText, status: newStatus }, token)).then(() =>
+            run(getTasks(true) as Promise<void>)
+          )
+        }
+        setEditMode(false)
+      } else {
+        setEditMode(true)
       }
-      setEditMode(false)
-    } else {
-      setEditMode(true)
-    }
-  }, [editMode, getTasks, run, task, token])
+    },
+    [editMode, getTasks, run, task, token]
+  )
 
   const taskStatus = getTaskStatus(task.status)
 
   return (
-    <div className="card relative flex flex-col">
+    <div className={`card relative flex flex-col ${isAdmin ? 'group' : ''}`}>
       <Checkbox
         id={String(task.id)}
         checked={taskStatus.checked}
@@ -55,8 +59,8 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
         disabled={!isAdmin}>
         {taskStatus.status}
       </Checkbox>
-      <div className={`bg-orange-200 px-5 py-4 -mx-5 mt-3 ${isAdmin ? 'group' : ''}`}>
-        <div className="flex items-center justify-between">
+      <div className="bg-orange-200 px-5 py-4 -mx-5 mt-3">
+        <form className="flex items-center justify-between" onSubmit={handleEditClick}>
           {editMode ? (
             <input ref={inputRef} className="input" type="text" defaultValue={task.text} />
           ) : (
@@ -64,12 +68,12 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
           )}
           {isAdmin && (
             <button
-              className="group-hover:opacity-100 opacity-0 text-orange-500 w-5 h-5 ml-3"
-              onClick={handleEditClick}>
+              type="submit"
+              className="group-hover:opacity-100 opacity-0 text-orange-500 w-5 h-5 ml-3">
               {editMode ? <CheckMarkIcon /> : <EditIcon />}
             </button>
           )}
-        </div>
+        </form>
         {taskStatus.helperText && (
           <p className="text-sm text-orange-500">{taskStatus.helperText}</p>
         )}
