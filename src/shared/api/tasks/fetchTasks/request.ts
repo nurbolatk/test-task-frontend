@@ -1,11 +1,11 @@
 import { client } from 'shared/client'
 import { FetchTasksResult, SortField } from './types'
-import { DEFAULT_SORT_FIELD } from '../config'
+import { DEFAULT_SORT_DIRECTION, DEFAULT_SORT_FIELD } from '../config'
 
 export const fetchTasks = async (
   page = 1,
   sortField: SortField = DEFAULT_SORT_FIELD,
-  sortDir: string
+  sortDir: string = DEFAULT_SORT_DIRECTION
 ) => {
   const queryParams = new URLSearchParams()
   queryParams.append('page', String(page))

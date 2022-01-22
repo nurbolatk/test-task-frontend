@@ -1,6 +1,6 @@
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { useNavigate } from 'react-router'
-import { DEFAULT_SORT_FIELD, SortField } from '../api/tasks'
+import { DEFAULT_SORT_DIRECTION, DEFAULT_SORT_FIELD, SortField } from '../api/tasks'
 import { useCallback, useMemo } from 'react'
 
 export function useSorting() {
@@ -10,7 +10,10 @@ export function useSorting() {
     () => queryParams.get('sort_field') ?? DEFAULT_SORT_FIELD,
     [queryParams]
   )
-  const sortDirection = useMemo(() => queryParams.get('sort_direction') ?? 'asc', [queryParams])
+  const sortDirection = useMemo(
+    () => queryParams.get('sort_direction') ?? DEFAULT_SORT_DIRECTION,
+    [queryParams]
+  )
   const navigate = useNavigate()
 
   const sortBy = useCallback(
