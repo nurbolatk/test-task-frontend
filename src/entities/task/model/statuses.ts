@@ -27,20 +27,20 @@ export const statuses: Record<
   { status: string; helperStatus?: string; checked: boolean }
 > = {
   0: {
-    status: 'Не выполнена',
+    status: 'Не выполнено',
     checked: false,
   },
   1: {
-    status: 'Не выполнена',
+    status: 'Не выполнено',
     helperStatus: 'Отредактировано администратором',
     checked: false,
   },
   10: {
-    status: 'Выполнена',
+    status: 'Выполнено',
     checked: true,
   },
   11: {
-    status: 'Выполнена',
+    status: 'Выполнено',
     helperStatus: 'Отредактировано администратором',
     checked: true,
   },
