@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { ErrorMessage, OverlayLoader } from 'shared/ui'
+import { InputGroup, OverlayLoader, StatusMessage } from 'shared/ui'
 import { useAsync } from 'shared/client'
 import { createTask } from 'shared/api/tasks'
 
 export const CreateTaskForm = (): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
-  const { run, isSuccess, isLoading, error: errors } = useAsync()
+  const { run, isSuccess, isLoading, error } = useAsync()
 
   const handleSubmit = (event: React.FormEvent<CreateTaskFormElement>) => {
     event.preventDefault()
@@ -27,19 +27,14 @@ export const CreateTaskForm = (): JSX.Element => {
 
   return (
     <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-4 relative">
-      {isSuccess && <p className="text-green-500">Задача добавлена!</p>}
-      <div>
-        <input type="text" className="input" name="username" placeholder="Имя пользователя" />
-        {errors?.username && <ErrorMessage message={errors.username} />}
-      </div>
-      <div>
-        <input type="email" className="input" name="email" placeholder="Электронная почта" />
-        {errors?.email && <ErrorMessage message={errors.email} />}
-      </div>
-      <div>
-        <input type="text" className="input" name="text" placeholder="Текст задачи" />
-        {errors?.text && <ErrorMessage message={errors.text} />}
-      </div>
+      <StatusMessage
+        variant="success"
+        index="task"
+        message={isSuccess ? { task: 'Задача добавлена!' } : null}
+      />
+      <InputGroup error={error} name="username" type="text" placeholder="Имя пользователя" />
+      <InputGroup error={error} type="email" name="email" placeholder="Электронная почта" />
+      <InputGroup error={error} type="text" name="text" placeholder="Текст задачи" />
       <button className="button">Создать</button>
       {isLoading && <OverlayLoader />}
     </form>

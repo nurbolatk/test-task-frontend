@@ -1,10 +1,7 @@
-import React, { HTMLAttributes, PropsWithChildren } from 'react'
+import React, { InputHTMLAttributes, PropsWithChildren } from 'react'
 import { CheckMarkIcon } from 'shared/ui/icons'
 
-type Props = Omit<HTMLAttributes<HTMLInputElement>, 'type'> & {
-  checked: boolean
-  disabled: boolean
-}
+type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>
 
 export const Checkbox = ({
   className,

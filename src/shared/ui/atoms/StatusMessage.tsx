@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react'
 
 type Props = {
   variant: 'info' | 'error' | 'success'
-  message: Record<string, string | number | boolean>
+  message?: Record<string, string | number | boolean> | null
   index: string
   as?: string
 } & HTMLAttributes<HTMLElement>
