@@ -59,7 +59,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
         disabled={!isAdmin}>
         {task.status}
       </Checkbox>
-      <div className="bg-orange-200 px-5 py-4 -mx-5 mt-3">
+      <div className="bg-orange-200 flex-1 px-5 py-4 -mx-5 mt-3">
         <form className="flex items-center justify-between" onSubmit={handleEditClick}>
           {editMode ? (
             <input ref={inputRef} className="input" type="text" defaultValue={task.text} />
@@ -77,7 +77,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
         <StatusMessage variant="info" message={task} index="helperStatus" />
       </div>
 
-      <div className="flex flex-wrap flex-1 items-center gap-3 mt-3">
+      <div className="flex flex-wrap items-center gap-3 mt-3">
         <p className="flex gap-2 items-center">
           <UserIcon className="w-3.5 h-3.5 text-orange-200 flex-shrink-0" /> {task.username}
         </p>

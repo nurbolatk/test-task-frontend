@@ -1,12 +1,13 @@
 import { useLayoutEffect } from 'react'
 import { Dispatch, useCallback, useReducer, useRef } from 'react'
+import { GeneralError } from './types'
 
 export type RequestStatus = 'idle' | 'pending' | 'resolved' | 'rejected'
 
 type State<T> = {
   data: T | null
   status: RequestStatus
-  error: Record<string, string> | null
+  error: GeneralError | null
 }
 
 type Reducer<S> = (prevState: S, action: S) => S

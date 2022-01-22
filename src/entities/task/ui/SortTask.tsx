@@ -39,19 +39,23 @@ export const SortTask = (): JSX.Element => {
       <Select.Target>
         <button className="flex items-center gap-2">
           {currentSort.label}
-          {directionIcon}
+          <ChevronIcon direction="down" className="w-3 h-3" />
         </button>
       </Select.Target>
       <Select.Content>
-        {options.map((option) => (
-          <Select.Option key={option.id} option={option}>
-            <button
-              onClick={() => handleOptionClick(option.id)}
-              className={option.id === currentSort.id ? 'font-bold' : ''}>
-              {option.label}
-            </button>
-          </Select.Option>
-        ))}
+        {options.map((option) => {
+          const isCurrent = option.id === currentSort.id
+          return (
+            <Select.Option key={option.id} option={option}>
+              <button
+                onClick={() => handleOptionClick(option.id)}
+                className={isCurrent ? 'font-bold flex items-center gap-x-2' : ''}>
+                {option.label}
+                {isCurrent ? directionIcon : null}
+              </button>
+            </Select.Option>
+          )
+        })}
       </Select.Content>
     </Select>
   )

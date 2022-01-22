@@ -1,22 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 import { InputGroup, OverlayLoader, StatusMessage } from 'shared/ui'
 import { useAsync } from 'shared/client'
-import { createTask } from 'shared/api/tasks'
+import { CreateTaskFormElement, createTask } from '../model'
 
 export const CreateTaskForm = (): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null)
-  const { run, isSuccess, isLoading, error } = useAsync()
+  const { run, isSuccess, isLoading, error, setError } = useAsync()
 
   const handleSubmit = (event: React.FormEvent<CreateTaskFormElement>) => {
     event.preventDefault()
-    const { username, email, text } = event.currentTarget.elements
-    run(
-      createTask({
-        username: username.value,
-        email: email.value,
-        text: text.value,
-      })
-    )
+    const result = createTask(event.currentTarget.elements)
+    if (result instanceof Promise) run(result)
+    else setError(result)
   }
 
   useEffect(() => {
@@ -39,13 +34,4 @@ export const CreateTaskForm = (): JSX.Element => {
       {isLoading && <OverlayLoader />}
     </form>
   )
-}
-
-type FormElements = HTMLFormControlsCollection & {
-  username: HTMLInputElement
-  email: HTMLInputElement
-  text: HTMLInputElement
-}
-type CreateTaskFormElement = HTMLFormElement & {
-  readonly elements: FormElements
 }

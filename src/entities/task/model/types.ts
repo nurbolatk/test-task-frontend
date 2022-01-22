@@ -15,3 +15,12 @@ export type GetTasksResult = {
   tasks: Task[]
   totalCount: number
 }
+
+export type CreateTaskFormControls = HTMLFormControlsCollection & {
+  username: HTMLInputElement
+  email: HTMLInputElement
+  text: HTMLInputElement
+}
+export type CreateTaskFormElement = HTMLFormElement & {
+  readonly elements: CreateTaskFormControls
+}
