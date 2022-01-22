@@ -2,7 +2,7 @@ import { User } from 'entities/user'
 import React, { PropsWithChildren, useEffect } from 'react'
 import { useAsync } from 'shared/client'
 import * as auth from 'shared/api/auth'
-import { OverlayLoader } from '../../shared/ui'
+import { OverlayLoader } from 'shared/ui'
 
 type AuthContextValue = {
   user: User | null

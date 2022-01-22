@@ -36,8 +36,8 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
         run(updateTask(task.id, { text: newText, status: newStatus }, token)).then(() =>
           run(getTasks(true) as Promise<void>)
         )
-        setEditMode(false)
       }
+      setEditMode(false)
     } else {
       setEditMode(true)
     }

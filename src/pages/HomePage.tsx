@@ -22,7 +22,7 @@ export const HomePage = (): JSX.Element => {
       </div>
       <div>
         <div className="grid md:grid-cols-3 gap-3">
-          {isLoading ? (
+          {tasks.length === 0 && isLoading ? (
             <>
               <Skeleton className="w-full h-[12rem]" />
               <Skeleton className="w-full h-[12rem]" />
