@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTasks } from 'app/providers'
 import { SortTask, TaskCard } from '../entities/task'
-import { Pagination, Skeleton, StatusMessageList } from 'shared/ui'
+import { Pagination, Skeleton, StatusMessage, StatusMessageList } from 'shared/ui'
 
 export const HomePage = (): JSX.Element => {
   const { getTasks, tasks, totalPages, isLoading, error } = useTasks()
@@ -34,6 +34,8 @@ export const HomePage = (): JSX.Element => {
               <Skeleton className="w-full h-[12rem]" />
               <Skeleton className="w-full h-[12rem]" />
             </>
+          ) : tasks.length === 0 ? (
+            <StatusMessage variant="info" message="Вы еще не создали задачи" />
           ) : (
             tasks.map((task) => <TaskCard task={task} key={task.id} />)
           )}
