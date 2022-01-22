@@ -26,8 +26,14 @@ h2 {
 }
 
 .text-wrap {
-  overflow-wrap: anywhere;
+  word-break: break-all;
+  overflow-wrap: break-word;
   white-space: pre-line;
+  hyphens: auto;
+}
+
+.text-wrap > * {
+  overflow-wrap: inherit;
 }
 
 /* Components */

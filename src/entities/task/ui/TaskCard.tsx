@@ -64,7 +64,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
           {editMode ? (
             <input ref={inputRef} className="input" type="text" defaultValue={task.text} />
           ) : (
-            <p className="py-1.5">{task.text}</p>
+            <p className="py-1.5 text-wrap">{task.text}</p>
           )}
           {isAdmin && (
             <button
@@ -78,10 +78,10 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mt-3">
-        <p className="flex gap-2 items-center">
+        <p className="flex gap-2 items-center text-wrap">
           <UserIcon className="w-3.5 h-3.5 text-orange-200 flex-shrink-0" /> {task.username}
         </p>
-        <p className="flex gap-2 items-center">
+        <p className="flex gap-2 items-center text-wrap">
           <EmailIcon className="w-4 h-4 text-orange-200 flex-shrink-0" />
           {task.email}
         </p>
