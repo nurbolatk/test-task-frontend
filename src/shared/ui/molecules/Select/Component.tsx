@@ -11,7 +11,6 @@ const Select = ({ children }: WithChildren): JSX.Element => {
 
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
-      console.log(event.key)
       if (event.key === 'Escape') {
         setShow(false)
       }

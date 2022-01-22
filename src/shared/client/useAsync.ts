@@ -54,12 +54,10 @@ export function useAsync<T>(initialState?: State<T>) {
       dispatch({ status: 'pending', data: null, error: null })
       return promise
         .then((result) => {
-          console.log('result?', result)
           setData(result)
           return Promise.resolve(data)
         })
         .catch((e) => {
-          console.log('error?', e)
           setError(e)
           return Promise.reject(e)
         })
