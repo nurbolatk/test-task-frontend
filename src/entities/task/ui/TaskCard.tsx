@@ -46,7 +46,7 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
   const taskStatus = getTaskStatus(task.status)
 
   return (
-    <div className="card relative ">
+    <div className="card relative flex flex-col">
       <Checkbox
         id={String(task.id)}
         checked={taskStatus.checked}
@@ -71,11 +71,11 @@ export const TaskCard = ({ task }: Props): JSX.Element => {
           )}
         </div>
         {taskStatus.helperText && (
-          <p className="text-sm text-orange-500 mt-2">{taskStatus.helperText}</p>
+          <p className="text-sm text-orange-500">{taskStatus.helperText}</p>
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 mt-3">
+      <div className="flex flex-wrap flex-1 items-center gap-3 mt-3">
         <p className="flex gap-2 items-center">
           <UserIcon className="w-4 h-4 text-orange-200" /> {task.username}
         </p>
