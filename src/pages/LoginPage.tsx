@@ -18,7 +18,7 @@ export const LoginPage = (): JSX.Element => {
   return (
     <section>
       <div className="max-w-3xl mx-auto card">
-        <h2 className="text-xl mb-4">Пожалуйста, войдите</h2>
+        <h2 className="mb-4">Пожалуйста, войдите</h2>
         <LoginForm />
       </div>
     </section>

@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { reducer } from './reducer'
 import * as taskModel from 'entities/task/model'
 import { useSorting } from 'shared/utils'
+import { GeneralError } from 'shared/client'
 
 type Task = taskModel.Task
 
@@ -12,6 +13,7 @@ export type TasksStore = {
   totalPages: number
   tasks: Task[]
   isLoading: boolean
+  error: GeneralError | null
 }
 
 const TasksContext = React.createContext<TasksStore | undefined>(undefined)
@@ -21,6 +23,7 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
     tasks: new Map(),
     totalCount: 0,
     status: 'idle',
+    error: null,
   })
 
   const [queryParams] = useSearchParams()
@@ -56,7 +59,10 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
             })
           })
           .catch((error) => {
-            console.log(error)
+            dispatch({
+              type: 'SET_ERROR',
+              payload: error,
+            })
           })
       }
     },
@@ -71,6 +77,7 @@ const TasksProvider = ({ children }: PropsWithChildren<unknown>) => {
     totalPages,
     state,
     isLoading,
+    error: state.error,
   }
 
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>

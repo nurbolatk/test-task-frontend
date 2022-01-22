@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useTasks } from '../app/providers'
+import { useTasks } from 'app/providers'
 import { SortTask, TaskCard } from '../entities/task'
-import { Pagination, Skeleton } from '../shared/ui'
+import { Pagination, Skeleton, StatusMessageList } from 'shared/ui'
 
 export const HomePage = (): JSX.Element => {
-  const { getTasks, tasks, totalPages, isLoading } = useTasks()
+  const { getTasks, tasks, totalPages, isLoading, error } = useTasks()
+
+  console.log(error)
 
   useEffect(() => {
     getTasks()
@@ -24,7 +26,9 @@ export const HomePage = (): JSX.Element => {
       </div>
       <div>
         <div className="grid md:grid-cols-3 gap-3">
-          {showLoading ? (
+          {error ? (
+            <StatusMessageList messages={error} variant="error" />
+          ) : showLoading ? (
             <>
               <Skeleton className="w-full h-[12rem]" />
               <Skeleton className="w-full h-[12rem]" />

@@ -1,13 +1,13 @@
 import { User } from 'entities/user'
 import React, { PropsWithChildren, useEffect } from 'react'
-import { useAsync } from 'shared/client'
+import { GeneralError, useAsync } from 'shared/client'
 import * as auth from 'shared/api/auth'
 import { OverlayLoader } from 'shared/ui'
 
 type AuthContextValue = {
   user: User | null
   isAdmin: boolean
-  error: Record<string, string> | null
+  error: GeneralError | null
   login: (username: string, password: string) => Promise<User | null>
   logout: () => void
 }

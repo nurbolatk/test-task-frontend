@@ -1,8 +1,9 @@
 import React, { InputHTMLAttributes } from 'react'
 import { StatusMessage } from './StatusMessage'
+import { GeneralError } from '../../client'
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
-  error?: Record<string, string> | null
+  error?: GeneralError | null
 }
 
 export const InputGroup = ({ className, error, ...props }: Props): JSX.Element => {

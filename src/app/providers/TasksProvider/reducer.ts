@@ -1,5 +1,5 @@
 import { Task } from 'entities/task'
-import { RequestStatus } from 'shared/client'
+import { GeneralError, RequestStatus } from 'shared/client'
 import { Reducer } from 'react'
 
 type ActionType =
@@ -17,7 +17,7 @@ type ActionType =
     }
   | {
       type: 'SET_ERROR'
-      payload: Record<string, string | number> | null
+      payload: GeneralError | null
     }
   | {
       type: 'RESET_TASKS'
@@ -27,6 +27,7 @@ export type InternalState = {
   tasks: Map<number, Task[]>
   totalCount: number
   status: RequestStatus
+  error: GeneralError | null
 }
 
 export const reducer: Reducer<InternalState, ActionType> = (
